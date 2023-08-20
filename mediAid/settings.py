@@ -12,11 +12,12 @@ import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-dotenv_file = BASE_DIR / '.env.local'
-if path.isfile(dotenv_file):
-    dotenv.load_dotenv(dotenv_file)
+dotenv_file = BASE_DIR / '.env'
+# if path.isfile(dotenv_file):
+dotenv.load_dotenv(dotenv_file)
 
-DEVELOPMENT_MODE = getenv('DEVELOPMENT_MODE', 'False') == 'True'
+# DEVELOPMENT_MODE = True
+# getenv('DEVELOPMENT_MODE', 'False') == 'True'
 # MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 # MEDIA_URL = '/media/'
 
@@ -87,19 +88,25 @@ WSGI_APPLICATION = 'mediAid.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if DEVELOPMENT_MODE is True:
+if DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
-    }
-elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
-    if getenv('DATABASE_URL', None) is None:
-        raise Exception('DATABASE_URL environment variable not defined')
-    DATABASES = {
-        'default': dj_database_url.parse(getenv('DATABASE_URL')),
-    }
+    }   
+else:
+    DATABASES = {'default': dj_database_url.parse(getenv('DATABASE_URL')),}
+    
+    
+    
+    
+# elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+#     if getenv('DATABASE_URL', None) is None:
+#         raise Exception('DATABASE_URL environment variable not defined')
+#     DATABASES = {
+#         'default': dj_database_url.parse(getenv('DATABASE_URL')),
+#     }
     
 # DATABASES = {
 #     "default": {
