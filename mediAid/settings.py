@@ -96,7 +96,7 @@ if DEBUG:
         }
     }   
 else:
-    DATABASES = {'default': dj_database_url.parse(getenv('DATABASE_URL')),}
+    DATABASES = {'default': dj_database_url.parse(getenv('DATABASE_URL'))}
     
     
     
