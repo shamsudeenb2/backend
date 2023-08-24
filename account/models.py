@@ -15,6 +15,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone_number = models.IntegerField(blank=True, null=True)
     date_of_birth = models.DateField(null=True, blank=False)
     is_active = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
     
 
     objects = UserManager()

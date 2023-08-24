@@ -42,7 +42,7 @@ class MedHistory(models.Model):
     
 class Frequency(models.Model):
     date_created = models.DateField(auto_now_add=True)
-    medics_id = models.ForeignKey(Medication, on_delete=models.CASCADE)
+    medics_id = models.ForeignKey(Medication, related_name='medics_id', on_delete=models.CASCADE)
     medicine_desc = models.CharField(max_length=100, blank=True)
     reminder_time = models.TimeField()
     

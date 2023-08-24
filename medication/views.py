@@ -35,6 +35,7 @@ class MedicsView(APIView):
             
             for frequency_data in frequency_data_list:
                 frequency_data['medics_id'] = medic_instance.id
+                print(frequency_data)
                 serializer = FrequencySerializer(data=frequency_data)
                 
                 if serializer.is_valid():
@@ -67,7 +68,7 @@ class MedicsView(APIView):
             return Response(serializer.errors)
        
     def delete(self, request, pk=None):
-        med = Medication.objects.filter(pk=pk)
+        med = Frequency.objects.filter(pk=pk)
         med.delete()
         return Response('Delete Successfully', status=status.HTTP_200_OK)
 
