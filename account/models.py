@@ -3,6 +3,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from phonenumber_field.modelfields import PhoneNumberField
 # from django.utils.translation import ugettext_lazy as _
 
 from .managers import UserManager
@@ -12,7 +13,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, max_length=200,)
     first_name = models.CharField(max_length=255, blank=True)
     last_name = models.CharField(max_length=255, blank=True)
-    phone_number = models.IntegerField(blank=True, null=True)
+    phone_number = PhoneNumberField(blank=False, unique=True, region="NG")
     date_of_birth = models.DateField(null=True, blank=False)
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)

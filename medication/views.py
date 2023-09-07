@@ -11,13 +11,12 @@ newYorkTz = pytz.timezone("Africa/Lagos")
 
 class MedicsView(APIView):
     def get(self, request):
-        dateNow = datetime.date(datetime.now())
         timeInNewYork = datetime.now(newYorkTz)
         timeNow = timeInNewYork.strftime("%H:%M:%S")
         all_ilment = Frequency.objects.filter(
             medics_id__patient=self.request.user).filter(
                 reminder_time__gt=timeNow
-            )[:5]
+            ).order_by('reminder_time')[:5]
         serializer = FrequencySerializer(all_ilment, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
@@ -119,7 +118,7 @@ class AppointmentView(APIView):
                 reminder_time__gt=timeNow
                 ).filter(
                 reminder_date=dateNow
-            )[:5]
+            ).order_by('reminder_time')[:5]
         serializer = DocAptSerializer(history, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
@@ -150,33 +149,33 @@ class AppointmentView(APIView):
         return Response('Delete Successfully', status=status.HTTP_200_OK)
     
     
-class HomeView(APIView):
+# class HomeView(APIView):
     
-    def get(self, request):
-        dateNow=datetime.now().strftime ("%Y-%m-%d")
-        timeInNewYork = datetime.now(newYorkTz)
-        timeNow = timeInNewYork.strftime("%H:%M:%S")
-        med = Reminder.objects.filter(
-            medics_id__patient=self.request.user).filter(
-                reminder_time__gt=timeNow
-            )[:1]
-        remi_serializer = ReminderSerializer(med, many=True)
+#     def get(self, request):
+#         dateNow=datetime.now().strftime ("%Y-%m-%d")
+#         timeInNewYork = datetime.now(newYorkTz)
+#         timeNow = timeInNewYork.strftime("%H:%M:%S")
+#         med = Reminder.objects.filter(
+#             medics_id__patient=self.request.user).filter(
+#                 reminder_time__gt=timeNow
+#             )[:1]
+#         remi_serializer = ReminderSerializer(med, many=True)
     
-        appt = DocAppointment.objects.filter(
-              patient=self.request.user).filter(
-                reminder_time__gte=timeNow, reminder_date__gte=dateNow
-            )[:1]
-        appt_serializer = DocAptSerializer(appt, many=True)
+#         appt = DocAppointment.objects.filter(
+#               patient=self.request.user).filter(
+#                 reminder_time__gte=timeNow, reminder_date__gte=dateNow
+#             )[:1]
+#         appt_serializer = DocAptSerializer(appt, many=True)
         
-        medics = Medication.objects.filter(
-            patient=self.request.user).filter(
-                reminder_time__gt=timeNow
-            )[:1]
-        med_serializer = MedicSerializer(medics, many=True)
+#         medics = Medication.objects.filter(
+#             patient=self.request.user).filter(
+#                 reminder_time__gt=timeNow
+#             )[:1]
+#         med_serializer = MedicSerializer(medics, many=True)
         
-        data = med_serializer.data + appt_serializer.data + remi_serializer.data
+#         data = med_serializer.data + appt_serializer.data + remi_serializer.data
         
-        return Response(data, status=status.HTTP_200_OK)
+#         return Response(data, status=status.HTTP_200_OK)
 
 
 
@@ -189,7 +188,9 @@ class ReminderView(APIView):
         all_ilment = Reminder.objects.filter(
             medics_id__patient=self.request.user).filter(
                 reminder_time__gt=timeNow
-            )[:5]
+            ).filter(
+                reminder_date=dateNow
+            ).order_by('reminder_time')[:5]
         serializer = ReminderSerializer(all_ilment, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     

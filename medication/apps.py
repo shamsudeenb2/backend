@@ -5,6 +5,6 @@ class MedicationConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'medication'
     
-    # def ready(self):
-    #     from reminders import updater
-    #     updater.start()
+    def ready(self):
+        from reminders import updater
+        updater.start()

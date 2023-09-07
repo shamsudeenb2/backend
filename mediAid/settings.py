@@ -28,7 +28,8 @@ dotenv.load_dotenv(dotenv_file)
 SECRET_KEY = getenv('DJANGO_SECRET_KEY', get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG=getenv('DEBUG', "False") == True
+DEBUG=True
+getenv('DEBUG', "False") == True
 
 # ALLOWED_HOSTS = getenv('DJANGO_ALLOWED_HOSTS', 
 #                        "127.0.0.1,localhost").split(',')
@@ -41,6 +42,11 @@ if RENDER_EXTERNAL_HOSTNAME:
 ALLOWED_HOSTS.append("127.0.0.1")
 ALLOWED_HOSTS.append("localhost")
 
+
+# Twilio API
+TWILIO_NUMBER = os.environ.get('TWILIO_NUMBER')
+TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
 
 
 
@@ -61,6 +67,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'social_django',
     'django_apscheduler',
+    'phonenumber_field',
     ]
 
 MIDDLEWARE = [

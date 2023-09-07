@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from account.models import User
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 
@@ -30,7 +31,7 @@ class DocAppointment(models.Model):
     date_created = models.DateField(auto_now_add=True)
     name = models.CharField(max_length=50, blank=False)
     doctor_email = models.EmailField(max_length=100, blank=True)
-    doctor_phone = models.IntegerField(blank=False)
+    doctor_phone = PhoneNumberField(blank=False, region="NG")
     reminder_date = models.DateField()
     reminder_time = models.TimeField()
     
